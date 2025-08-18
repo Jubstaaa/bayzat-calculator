@@ -71,7 +71,9 @@ describe("Bayzat Calculator", () => {
   it("keyboard: 12 + 3 Enter => 15", () => {
     cy.get('[data-testid="expr"]').should("exist");
     cy.get("body").type("12+3{enter}");
-    cy.get('[data-testid="result"]').should("have.text", "15");
+    cy.get('[data-testid="result"]')
+      .should("have.text", "15")
+      .should("be.visible");
   });
 
   it("keyboard: backspace removes last char before evaluating", () => {
