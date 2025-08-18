@@ -79,6 +79,18 @@ describe("evaluateExpression", () => {
         ErrorMessage.INVALID_EXPRESSION
       );
     });
+
+    it("should throw error for invalid JavaScript syntax", () => {
+      expect(() => evaluateExpression("()()()")).toThrow(
+        ErrorMessage.INVALID_EXPRESSION
+      );
+      expect(() => evaluateExpression("()()*2")).toThrow(
+        ErrorMessage.INVALID_EXPRESSION
+      );
+      expect(() => evaluateExpression("2++2")).toThrow(
+        ErrorMessage.INVALID_EXPRESSION
+      );
+    });
   });
 
   describe("Division by Zero", () => {
@@ -87,7 +99,9 @@ describe("evaluateExpression", () => {
     });
 
     it("should throw error for division by zero decimal", () => {
-      expect(() => evaluateExpression("5/0.0")).toThrow(ErrorMessage.DIV_BY_ZERO);
+      expect(() => evaluateExpression("5/0.0")).toThrow(
+        ErrorMessage.DIV_BY_ZERO
+      );
     });
   });
 

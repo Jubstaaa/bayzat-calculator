@@ -26,10 +26,11 @@ export function evaluateExpression(expr: string): string {
     }
     if (parenCount !== 0) throw new Error(ErrorMessage.MISMATCHED_PARENS);
 
-    if (cleanExpr === "()") throw new Error(ErrorMessage.INVALID_EXPRESSION);
-
-    if (/^\(\)[+\-*/]/.test(cleanExpr))
+    try {
+      new Function(`return ${cleanExpr}`);
+    } catch {
       throw new Error(ErrorMessage.INVALID_EXPRESSION);
+    }
 
     const result = new Function(`return ${cleanExpr}`)();
 
