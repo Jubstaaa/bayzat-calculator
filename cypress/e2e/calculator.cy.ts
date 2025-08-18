@@ -92,6 +92,7 @@ describe("Bayzat Calculator", () => {
   it("keyboard: parentheses and precedence", () => {
     cy.get('[data-testid="expr"]').should("exist");
     cy.get("body").type("(2+3)*4{enter}");
+    cy.get('[data-testid="expr"]').should("have.text", "0");
     cy.get('[data-testid="result"]')
       .should("have.text", "20")
       .should("be.visible");
