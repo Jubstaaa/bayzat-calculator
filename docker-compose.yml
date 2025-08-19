@@ -1,0 +1,80 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.npm-cache
+    environment:
+      - NODE_ENV=development
+      - CI=false
+      - DISPLAY=:99
+    command: |
+      sh -c "
+        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+        export DISPLAY=:99
+        npm run dev
+      "
+    networks:
+      - calculator-network
+
+  test:
+    build: .
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.npm-cache
+    environment:
+      - NODE_ENV=test
+      - CI=true
+      - DISPLAY=:99
+    command: |
+      sh -c "
+        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+        export DISPLAY=:99
+        npm run test
+      "
+    networks:
+      - calculator-network
+
+  e2e:
+    build: .
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.npm-cache
+    environment:
+      - NODE_ENV=test
+      - CI=true
+      - DISPLAY=:99
+    command: |
+      sh -c "
+        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+        export DISPLAY=:99
+        npm run dev &
+        sleep 15
+        npx cypress run --config-file cypress.config.cjs --browser electron --headless
+      "
+    networks:
+      - calculator-network
+
+  build:
+    build: .
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.npm-cache
+    environment:
+      - NODE_ENV=production
+      - CI=true
+    command: npm run build
+    networks:
+      - calculator-network
+
+networks:
+  calculator-network:
+    driver: bridge

@@ -29,10 +29,12 @@ This project is a **basic calculator application** built using **TypeScript** an
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 18+ (or Docker)
 - npm or yarn
 
 ### Setup
+
+#### Option 1: Local Development
 
 ```bash
 # Clone the repository
@@ -44,6 +46,23 @@ npm install
 
 # Start development server
 npm run dev
+```
+
+#### Option 2: Docker (Recommended)
+
+```bash
+# Clone the repository
+git clone https://github.com/Jubstaaa/bayzat-calculator.git
+cd calculator
+
+# Build Docker image
+docker build -t calculator-app .
+
+# Start development server
+docker run -p 5173:5173 -v $(pwd):/app calculator-app
+
+# Or use Docker Compose
+docker-compose up app
 ```
 
 The application runs at `http://localhost:5173`
@@ -298,6 +317,40 @@ src/
 ├── assets/                     # Static assets
 └── main.tsx                    # Application entry point
 ```
+
+## Docker Development
+
+### Docker Environment
+
+This project comes with a Docker environment that's fully compatible with GitHub Actions. Using Docker provides:
+
+- **Consistent Development Environment**: All developers work in the same environment
+- **GitHub Actions Compatibility**: Identical to the environment tested in CI/CD pipeline
+- **Easy Setup**: No need to install Node.js or npm locally
+- **Isolated Test Environment**: All dependencies for Cypress tests included
+
+### Docker Services
+
+```bash
+# Development server
+docker-compose up app
+
+# Unit tests
+docker-compose run --rm test
+
+# E2E tests
+docker-compose run --rm e2e
+
+# Production build
+docker-compose run --rm build
+```
+
+### Docker Compose Configuration
+
+- **app**: Development server (port 5173)
+- **test**: Unit test environment
+- **e2e**: E2E test environment (Cypress + Xvfb)
+- **build**: Production build environment
 
 ## Contributing
 
