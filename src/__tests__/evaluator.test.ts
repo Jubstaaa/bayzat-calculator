@@ -126,4 +126,32 @@ describe("evaluateExpression", () => {
       );
     });
   });
+
+  describe("Floating Point & Decimals", () => {
+    it("should handle 0.1 + 0.2 = 0.3", () => {
+      expect(evaluateExpression("0.1+0.2")).toBe("0.3");
+    });
+
+    it("should handle decimal multiplication", () => {
+      expect(evaluateExpression("1.23*4")).toBe("4.92");
+    });
+
+    it("should handle parentheses with decimals", () => {
+      expect(evaluateExpression("(0.1+0.2)*10")).toBe("3");
+    });
+  });
+
+  describe("Large Numbers", () => {
+    it("should handle very large integer multiplication", () => {
+      expect(evaluateExpression("999999999999999*9")).toBe("8999999999999991");
+    });
+
+    it("should handle large integer division", () => {
+      expect(evaluateExpression("123456789012345/3")).toBe("41152263004115");
+    });
+
+    it("should format extremely large results in scientific notation", () => {
+      expect(evaluateExpression("999999999999999999999*9")).toBe("9e+21");
+    });
+  });
 });
