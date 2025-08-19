@@ -37,10 +37,9 @@ jobs:
 
       - name: Run E2E tests (Cypress)
         run: |
-          npx cypress run --config-file cypress.config.cjs --browser chrome --headless
+          npx cypress run --config-file cypress.config.cjs --browser electron --headless
         env:
           CI: true
-          DISPLAY: :99
 
       - name: Build project
         run: npm run build
